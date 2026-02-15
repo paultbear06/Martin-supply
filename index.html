@@ -15,10 +15,10 @@
     <div id="status-msg" class="text-center py-20 text-slate-400 font-bold animate-pulse">CONNECTING TO WAREHOUSE...</div>
     <main id="storefront-view" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></main>
 
-    <script>
-        
-        const SHEET_CSV_URL =https:'//docs.google.com/spreadsheets/d/e/2PACX-1vTEH1l5fDoY0W52E0Ie1n9Jo1zABZ1mFRfa698ZtF8OLNb7rilj3VT0yifYZaL8_e8L62PoNomrlj1y/pub?output=csv'
 
+         <script>
+        //PASTE YOUR LINK BELOW- eNSURE IT'S BETWEEN THE''/
+const SHEET_CSV_URL =https:'//docs.google.com/spreadsheets/d/e/2PACX-1vTEH1l5fDoY0W52E0Ie1n9Jo1zABZ1mFRfa698ZtF8OLNb7rilj3VT0yifYZaL8_e8L62PoNomrlj1y/pub?output=csv'
         async function fetchInventory() {
             const status = document.getElementById('status-msg');
             try {
