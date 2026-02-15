@@ -15,27 +15,24 @@
     <div id="status-msg" class="text-center py-20 text-slate-400 font-bold animate-pulse">CONNECTING TO WAREHOUSE...</div>
     <main id="storefront-view" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></main>
 
+    <script>
+        // FIXED LINE 21: Added the equals sign and opening quote
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEH1l5fDoYOW52EOle1n9Jo1zABZ1mFRfa698ZtF8OLNb7rilj3VTOyifYZaL8_e8L62PoNomrlj1y/pub?output=csv';
 
-         <script>
-        //PASTE YOUR LINK BELOW- eNSURE IT'S BETWEEN THE''/
-const SHEET_CSV_URL =https:'//docs.google.com/spreadsheets/d/e/2PACX-1vTEH1l5fDoY0W52E0Ie1n9Jo1zABZ1mFRfa698ZtF8OLNb7rilj3VT0yifYZaL8_e8L62PoNomrlj1y/pub?output=csv'
         async function fetchInventory() {
             const status = document.getElementById('status-msg');
             try {
-                console.log("Attempting to fetch from:", SHEET_CSV_URL);
                 const response = await fetch(SHEET_CSV_URL);
-                
                 if (!response.ok) throw new Error("Google Refused Connection");
                 
                 const csvText = await response.text();
                 const rows = csvText.split('\n').filter(row => row.trim() !== '');
                 
-                // Check if we actually got data
-                if (rows.length < 2) throw new Error("Sheet is empty or not published correctly");
+                if (rows.length < 2) throw new Error("Sheet appears empty");
 
                 const headers = rows[0].split(',').map(h => h.trim().toLowerCase());
                 const inventory = rows.slice(1).map(row => {
-                    const values = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); // Smarter comma split
+                    const values = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     let obj = {};
                     headers.forEach((header, i) => {
                         obj[header] = values[i] ? values[i].replace(/"/g, '').trim() : '';
@@ -46,11 +43,9 @@ const SHEET_CSV_URL =https:'//docs.google.com/spreadsheets/d/e/2PACX-1vTEH1l5fDo
                 status.style.display = 'none';
                 render(inventory);
             } catch (error) {
-                console.error(error);
-                status.innerHTML = `<div class="text-red-500 p-10 uppercase tracking-widest">
+                status.innerHTML = `<div class="text-red-500 p-10 uppercase font-bold text-center">
                     <p>Connection Error</p>
-                    <p class="text-[10px] mt-2 text-slate-400">${error.message}</p>
-                    <p class="text-[10px] mt-1 font-normal">Check: File > Share > Publish to Web > CSV</p>
+                    <p class="text-[10px] text-slate-400">${error.message}</p>
                 </div>`;
             }
         }
@@ -60,17 +55,14 @@ const SHEET_CSV_URL =https:'//docs.google.com/spreadsheets/d/e/2PACX-1vTEH1l5fDo
             store.innerHTML = '';
             items.forEach(item => {
                 if(!item.name || item.name.toLowerCase() === 'name') return;
-                const priceMatch = item.price ? item.price.match(/[\d.]+/) : null;
-                const displayPrice = priceMatch ? parseFloat(priceMatch[0]).toFixed(2) : "0.00";
-
+                
                 store.innerHTML += `
                     <div class="bg-white rounded-3xl shadow-md border p-6 flex flex-col transition active:scale-95">
                         ${item.image && item.image.startsWith('http') ? `<img src="${item.image}" class="w-full h-48 object-cover rounded-xl mb-4 bg-slate-100">` : ''}
-                        ${item.special ? `<span class="bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded w-fit uppercase tracking-tighter mb-2">${item.special}</span>` : ''}
+                        ${item.special ? `<span class="bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded w-fit uppercase mb-2">${item.special}</span>` : ''}
                         <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">${item.name}</h3>
                         <div class="flex items-baseline gap-1 mt-1">
-                            <span class="text-blue-600 font-bold text-lg">$</span>
-                            <span class="text-3xl font-black text-slate-900">${displayPrice}</span>
+                            <span class="text-3xl font-black text-slate-900">$${item.price || '0.00'}</span>
                         </div>
                         <button class="w-full mt-5 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg">Contact to Order</button>
                     </div>
@@ -81,3 +73,4 @@ const SHEET_CSV_URL =https:'//docs.google.com/spreadsheets/d/e/2PACX-1vTEH1l5fDo
     </script>
 </body>
 </html>
+
