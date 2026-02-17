@@ -3,56 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory - Martin Family Supply</title>
+    <title>Inventory Hub - Martin Family Supply</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 min-h-screen">
+<body class="bg-slate-50 min-h-screen">
     <header class="bg-slate-900 text-white p-6 sticky top-0 z-50 shadow-xl border-b-2 border-blue-500 text-center">
         <h1 class="text-2xl font-bold uppercase tracking-tighter">MARTIN FAMILY <span class="text-blue-400">SUPPLY</span></h1>
-        <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-bold">Current Inventory</p>
+        <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-bold">Live Inventory</p>
     </header>
 
-    <div class="p-4 max-w-6xl mx-auto">
+    <div class="p-4 max-w-6xl mx-auto flex justify-between">
         <a href="index.html" class="text-slate-500 font-bold text-xs uppercase hover:text-blue-600">← Back to Home</a>
+        <button onclick="openEditor()" class="text-slate-400 font-bold text-xs uppercase hover:text-blue-600">⚙️ Edit List</button>
     </div>
 
-    <main id="inventory-grid" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        </main>
+    <main id="inventory-grid" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"></main>
+
+    <div id="editor-panel" class="hidden fixed inset-0 bg-white z-[100] p-6 overflow-y-auto">
+        <div class="max-w-2xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-black uppercase">Warehouse Manager</h2>
+                <button onclick="closeEditor()" class="bg-slate-200 px-4 py-2 rounded-xl font-bold uppercase text-xs">Close</button>
+            </div>
+            
+            <div class="bg-blue-50 p-6 rounded-3xl mb-8 border-2 border-blue-100">
+                <input id="new-name" type="text" placeholder="Item Name" class="w-full p-4 rounded-xl mb-3 border border-blue-200">
+                <input id="new-price" type="text" placeholder="Price (0.00)" class="w-full p-4 rounded-xl mb-3 border border-blue-200">
+                <input id="new-img" type="text" placeholder="Paste Image Address Here" class="w-full p-4 rounded-xl mb-3 border border-blue-200">
+                <input id="new-tag" type="text" placeholder="Tag (e.g. New / Sale)" class="w-full p-4 rounded-xl mb-4 border border-blue-200">
+                <button onclick="addItem()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase shadow-lg">Update Inventory</button>
+            </div>
+
+            <div id="admin-list" class="space-y-3"></div>
+        </div>
+    </div>
 
     <script>
-        // --- ADD YOUR ITEMS HERE ---
-        const items = [
-            {
-                name: "Heavy Duty Hammer",
-                price: "18.50",
-                img: "https://via.placeholder.com/400x300", // Replace with your Image Address
-                tag: "In Stock"
-            },
-            {
-                name: "Power Drill",
-                price: "45.00",
-                img: "https://via.placeholder.com/400x300", // Replace with your Image Address
-                tag: "Limited"
-            }
-        ];
+        const PASS = "Martin2026"; // YOUR PASSWORD
+        let inventory = JSON.parse(localStorage.getItem('martin_shop_v1')) || [];
 
-        function renderShop() {
+        function render() {
+            localStorage.setItem('martin_shop_v1', JSON.stringify(inventory));
+            
+            // Render Public View
             const grid = document.getElementById('inventory-grid');
-            grid.innerHTML = items.map(item => `
-                <div class="bg-white rounded-3xl shadow-md border overflow-hidden flex flex-col transition hover:shadow-xl">
-                    <img src="${item.img}" class="w-full h-48 object-cover bg-slate-200" alt="${item.name}">
+            grid.innerHTML = inventory.length ? inventory.map(item => `
+                <div class="bg-white rounded-3xl shadow-md border overflow-hidden flex flex-col">
+                    <img src="${item.img || 'https://via.placeholder.com/400'}" class="w-full h-48 object-cover bg-slate-200">
                     <div class="p-6">
                         ${item.tag ? `<span class="bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded w-fit uppercase mb-2 block">${item.tag}</span>` : ''}
                         <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">${item.name}</h3>
-                        <div class="mt-2">
-                            <span class="text-3xl font-black text-slate-900">$${item.price}</span>
-                        </div>
-                        <button class="w-full mt-5 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest">Order Now</button>
+                        <div class="mt-2"><span class="text-3xl font-black text-slate-900">$${item.price}</span></div>
                     </div>
+                </div>
+            `).join('') : '<p class="text-center col-span-full py-20 text-slate-400 uppercase font-bold">Inventory is empty. Use the "Edit List" button to add items.</p>';
+
+            // Render Admin List
+            const adminList = document.getElementById('admin-list');
+            adminList.innerHTML = inventory.map((item, index) => `
+                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border">
+                    <div><p class="font-bold">${item.name}</p><p class="text-xs text-slate-500">$${item.price}</p></div>
+                    <button onclick="deleteItem(${index})" class="text-red-600 font-bold text-xs uppercase">Remove</button>
                 </div>
             `).join('');
         }
-        renderShop();
+
+        function openEditor() {
+            if (prompt("Enter Password:") === PASS) document.getElementById('editor-panel').classList.remove('hidden');
+        }
+
+        function closeEditor() { document.getElementById('editor-panel').classList.add('hidden'); }
+
+        function addItem() {
+            const name = document.getElementById('new-name').value;
+            const price = document.getElementById('new-price').value;
+            const img = document.getElementById('new-img').value;
+            const tag = document.getElementById('new-tag').value;
+            if(name && price) {
+                inventory.push({ name, price, img, tag });
+                render();
+                document.getElementById('new-name').value = '';
+                document.getElementById('new-price').value = '';
+                document.getElementById('new-img').value = '';
+                document.getElementById('new-tag').value = '';
+            }
+        }
+
+        function deleteItem(index) {
+            if(confirm("Delete this item?")) { inventory.splice(index, 1); render(); }
+        }
+
+        render();
     </script>
 </body>
 </html>
