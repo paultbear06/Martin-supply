@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - Martin Family Supply</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen">
+    <header class="bg-slate-900 text-white p-6 sticky top-0 z-50 shadow-xl border-b-2 border-blue-500 text-center">
+        <h1 class="text-2xl font-bold uppercase tracking-tighter">MARTIN FAMILY <span class="text-blue-400">SUPPLY</span></h1>
+        <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-bold">Current Inventory</p>
+    </header>
+
+    <div class="p-4 max-w-6xl mx-auto">
+        <a href="index.html" class="text-slate-500 font-bold text-xs uppercase hover:text-blue-600">← Back to Home</a>
+    </div>
+
+    <main id="inventory-grid" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        </main>
+
+    <script>
+        // --- ADD YOUR ITEMS HERE ---
+        const items = [
+            {
+                name: "Heavy Duty Hammer",
+                price: "18.50",
+                img: "https://via.placeholder.com/400x300", // Replace with your Image Address
+                tag: "In Stock"
+            },
+            {
+                name: "Power Drill",
+                price: "45.00",
+                img: "https://via.placeholder.com/400x300", // Replace with your Image Address
+                tag: "Limited"
+            }
+        ];
+
+        function renderShop() {
+            const grid = document.getElementById('inventory-grid');
+            grid.innerHTML = items.map(item => `
+                <div class="bg-white rounded-3xl shadow-md border overflow-hidden flex flex-col transition hover:shadow-xl">
+                    <img src="${item.img}" class="w-full h-48 object-cover bg-slate-200" alt="${item.name}">
+                    <div class="p-6">
+                        ${item.tag ? `<span class="bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded w-fit uppercase mb-2 block">${item.tag}</span>` : ''}
+                        <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">${item.name}</h3>
+                        <div class="mt-2">
+                            <span class="text-3xl font-black text-slate-900">$${item.price}</span>
+                        </div>
+                        <button class="w-full mt-5 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest">Order Now</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        renderShop();
+    </script>
+</body>
+</html>
