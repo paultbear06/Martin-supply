@@ -1,103 +1,32 @@
-!D<OCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Martin Family Supply</title>
+    <title>Contact - Martin Family Supply</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 min-h-screen">
-    <header class="bg-slate-900 text-white p-6 sticky top-0 z-50 shadow-xl border-b-2 border-blue-500 text-center">
-        <h1 class="text-2xl font-bold uppercase tracking-tighter">MARTIN FAMILY <span class="text-blue-400">SUPPLY</span></h1>
-        <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-bold">Local Inventory Manager</p>
-    </header>
-
-    <main id="storefront-view" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></main>
-
-    <div class="p-10 text-center">
-        <button onclick="toggleAdmin()" class="text-slate-400 text-xs font-bold uppercase tracking-widest hover:text-blue-500 transition">⚙️ Manage Inventory</button>
-    </div>
-
-    <div id="admin-panel" class="hidden fixed inset-0 bg-white z-[100] p-6 overflow-y-auto">
-        <div class="max-w-2xl mx-auto">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-black uppercase">Inventory Editor</h2>
-                <button onclick="toggleAdmin()" class="bg-slate-200 px-4 py-2 rounded-full font-bold">Close</button>
-            </div>
+<body class="bg-slate-50 min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden border">
+        <div class="bg-slate-200 h-64 flex items-center justify-center">
+            <p class="text-slate-400 font-bold uppercase text-xs">Your Photo Goes Here</p>
+        </div>
+        
+        <div class="p-8 text-center">
+            <h1 class="text-3xl font-black text-slate-900 uppercase">Martin Family Supply</h1>
+            <p class="text-blue-600 font-bold mt-2 uppercase tracking-widest text-xs">Quality Tools & Hardware</p>
             
-            <div class="bg-slate-100 p-6 rounded-3xl mb-8">
-                <h3 class="font-bold mb-4 uppercase text-sm">Add New Item</h3>
-                <input id="new-name" type="text" placeholder="Item Name (e.g. Hammer)" class="w-full p-4 rounded-xl mb-3 border-none shadow-sm">
-                <input id="new-price" type="text" placeholder="Price (e.g. 15.00)" class="w-full p-4 rounded-xl mb-3 border-none shadow-sm">
-                <input id="new-special" type="text" placeholder="Tag (e.g. In Stock / New)" class="w-full p-4 rounded-xl mb-4 border-none shadow-sm">
-                <button onclick="addItem()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase">Add to Storefront</button>
+            <div class="mt-8 space-y-4 text-slate-600 font-medium">
+                <p>📍 Pauls Valley, Oklahoma</p>
+                <p>📞 (555) 000-0000</p>
+                <p>✉️ martinservices2003@gmail.com</p>
             </div>
 
-            <div id="admin-list" class="space-y-4"></div>
+            <a href="index.html" class="mt-10 inline-block bg-slate-900 text-white px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg">Back to Storefront</a>
         </div>
     </div>
-
-    <script>
-        let inventory = JSON.parse(localStorage.getItem('martin_inventory')) || [
-            { id: 1, name: 'Sample Item', price: '10.00', special: 'Welcome' }
-        ];
-
-        function render() {
-            // Save to browser memory
-            localStorage.setItem('martin_inventory', JSON.stringify(inventory));
-            
-            // Render Public View
-            const store = document.getElementById('storefront-view');
-            store.innerHTML = inventory.map(item => `
-                <div class="bg-white rounded-3xl shadow-md border p-6 flex flex-col transition active:scale-95">
-                    ${item.special ? `<span class="bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded w-fit uppercase mb-2">${item.special}</span>` : ''}
-                    <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">${item.name}</h3>
-                    <div class="flex items-baseline gap-1 mt-1">
-                        <span class="text-3xl font-black text-slate-900">$${item.price}</span>
-                    </div>
-                    <button class="w-full mt-5 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg">Contact to Order</button>
-                </div>
-            `).join('');
-
-            // Render Admin List
-            const adminList = document.getElementById('admin-list');
-            adminList.innerHTML = inventory.map((item, index) => `
-                <div class="flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border">
-                    <div>
-                        <p class="font-bold">${item.name}</p>
-                        <p class="text-sm text-slate-500">$${item.price}</p>
-                    </div>
-                    <button onclick="deleteItem(${index})" class="text-red-500 font-bold uppercase text-xs">Delete</button>
-                </div>
-            `).join('');
-        }
-
-        function toggleAdmin() {
-            document.getElementById('admin-panel').classList.toggle('hidden');
-        }
-
-        function addItem() {
-            const name = document.getElementById('new-name').value;
-            const price = document.getElementById('new-price').value;
-            const special = document.getElementById('new-special').value;
-            
-            if(name && price) {
-                inventory.push({ name, price, special });
-                document.getElementById('new-name').value = '';
-                document.getElementById('new-price').value = '';
-                document.getElementById('new-special').value = '';
-                render();
-            }
-        }
-
-        function deleteItem(index) {
-            inventory.splice(index, 1);
-            render();
-        }
-
-        render();
-    </script>
 </body>
 </html>
+
 
 
