@@ -3,108 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Martin Family Supply</title>
+    <title>Martin Supply Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none !important; }
+    </style>
 </head>
-<body class="bg-slate-100 min-h-screen">
-    <header class="bg-slate-900 text-white p-6 sticky top-0 z-50 shadow-xl border-b-2 border-blue-500 text-center">
-        <h1 class="text-2xl font-bold uppercase tracking-tighter">MARTIN FAMILY <span class="text-blue-400">SUPPLY</span></h1>
-        <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-bold">Local Inventory Manager</p>
+<body class="bg-gray-100">
+
+    <header class="bg-black text-white p-10 text-center border-b-4 border-blue-600">
+        <h1 class="text-3xl font-black uppercase">MARTIN FAMILY SUPPLY</h1>
+        <p id="display-slogan" class="text-blue-300 italic mt-2">Quality Tools & Service</p>
     </header>
 
-    <main id="storefront-view" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></main>
+    <div class="flex justify-between p-4">
+        <a href="index.html" class="text-sm font-bold text-gray-500 underline">HOME</a>
+        <button onclick="unlock()" class="bg-blue-600 text-white px-4 py-2 rounded font-bold text-xs uppercase">⚙️ MANAGE SITE</button>
+    </div>
 
-    <footer class="p-10 text-center">
-        <button onclick="requestAdminAccess()" class="text-slate-400 text-xs font-bold uppercase tracking-widest hover:text-blue-500 transition">⚙️ Staff Login</button>
-    </footer>
+    <div id="shop-grid" class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
 
-    <div id="admin-panel" class="hidden fixed inset-0 bg-white z-[100] p-6 overflow-y-auto">
-        <div class="max-w-2xl mx-auto">
-            <div class="flex justify-between items-center mb-8 border-b pb-4">
-                <h2 class="text-2xl font-black uppercase text-slate-900">Inventory Editor</h2>
-                <button onclick="closeAdmin()" class="bg-slate-900 text-white px-6 py-2 rounded-full font-bold uppercase text-xs">Exit</button>
-            </div>
-            
-            <div class="bg-blue-50 p-6 rounded-3xl mb-8 border-2 border-blue-100">
-                <h3 class="font-bold mb-4 uppercase text-sm text-blue-800">Add New Product</h3>
-                <input id="new-name" type="text" placeholder="Item Name" class="w-full p-4 rounded-xl mb-3 border border-blue-200">
-                <input id="new-price" type="text" placeholder="Price (0.00)" class="w-full p-4 rounded-xl mb-3 border border-blue-200">
-                <input id="new-special" type="text" placeholder="Special Tag (Optional)" class="w-full p-4 rounded-xl mb-4 border border-blue-200">
-                <button onclick="addItem()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase shadow-lg hover:bg-blue-700">Update Warehouse</button>
-            </div>
-
-            <h3 class="font-bold mb-4 uppercase text-xs text-slate-400">Current Items</h3>
-            <div id="admin-list" class="space-y-3"></div>
+    <div id="admin-box" class="hidden fixed inset-0 bg-white p-6 z-[999] overflow-scroll">
+        <div class="flex justify-between mb-6">
+            <h2 class="font-black text-xl">MANAGER</h2>
+            <button onclick="document.getElementById('admin-box').classList.add('hidden')" class="bg-gray-200 p-2 text-xs font-bold">CLOSE</button>
         </div>
+
+        <div class="bg-gray-50 p-4 rounded-xl border-2 border-dashed border-gray-300 mb-6">
+            <p class="font-bold text-xs mb-2">ADD NEW ITEM</p>
+            <input id="in-name" type="text" placeholder="Item Name" class="w-full mb-2 p-3 border">
+            <input id="in-price" type="text" placeholder="Price" class="w-full mb-2 p-3 border">
+            <input id="in-img" type="text" placeholder="Image Link" class="w-full mb-4 p-3 border">
+            <button onclick="add()" class="w-full bg-black text-white py-3 font-bold uppercase">Save to Shop</button>
+        </div>
+
+        <div id="list-items" class="space-y-2"></div>
     </div>
 
     <script>
-        // YOUR SECRET PASSWORD
-        const ADMIN_PASSWORD = "MartinFamily2026!"; 
+        let db = JSON.parse(localStorage.getItem('m_data')) || [];
 
-        let inventory = JSON.parse(localStorage.getItem('martin_inventory')) || [
-            { id: Date.now(), name: 'Sample Item', price: '0.00', special: 'Example' }
-        ];
-
-        function render() {
-            localStorage.setItem('martin_inventory', JSON.stringify(inventory));
+        function draw() {
+            localStorage.setItem('m_data', JSON.stringify(db));
+            const g = document.getElementById('shop-grid');
+            const l = document.getElementById('list-items');
             
-            // Render Public Store
-            const store = document.getElementById('storefront-view');
-            store.innerHTML = inventory.map(item => `
-                <div class="bg-white rounded-3xl shadow-md border p-6 flex flex-col transition">
-                    ${item.special ? `<span class="bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded w-fit uppercase mb-2">${item.special}</span>` : ''}
-                    <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">${item.name}</h3>
-                    <div class="mt-1"><span class="text-3xl font-black text-slate-900">$${item.price}</span></div>
-                    <button class="w-full mt-5 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg">Contact to Order</button>
+            g.innerHTML = db.map(i => `
+                <div class="bg-white p-4 rounded shadow">
+                    <img src="${i.img}" class="w-full h-40 object-cover mb-2">
+                    <p class="font-bold uppercase">${i.name}</p>
+                    <p class="text-xl font-black">$${i.price}</p>
                 </div>
             `).join('');
 
-            // Render Admin List
-            const adminList = document.getElementById('admin-list');
-            adminList.innerHTML = inventory.map((item, index) => `
-                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                    <div><p class="font-bold text-slate-800">${item.name}</p><p class="text-xs text-slate-500">$${item.price}</p></div>
-                    <button onclick="deleteItem(${index})" class="bg-red-100 text-red-600 p-2 px-4 rounded-xl font-bold uppercase text-[10px]">Remove</button>
+            l.innerHTML = db.map((i, idx) => `
+                <div class="flex justify-between bg-gray-100 p-2 rounded text-sm">
+                    <span>${i.name}</span>
+                    <button onclick="del(${idx})" class="text-red-600 font-bold">REMOVE</button>
                 </div>
             `).join('');
         }
 
-        function requestAdminAccess() {
-            const entry = prompt("Enter Warehouse Admin Password:");
-            if (entry === ADMIN_PASSWORD) {
-                document.getElementById('admin-panel').classList.remove('hidden');
+        function unlock() {
+            let p = prompt("Password:");
+            if(p === "Martin2026") {
+                document.getElementById('admin-box').classList.remove('hidden');
             } else {
-                alert("Access Denied: Incorrect Password");
+                alert("Wrong pass");
             }
         }
 
-        function closeAdmin() {
-            document.getElementById('admin-panel').classList.add('hidden');
-        }
-
-        function addItem() {
-            const name = document.getElementById('new-name').value;
-            const price = document.getElementById('new-price').value;
-            const special = document.getElementById('new-special').value;
-            
-            if(name && price) {
-                inventory.push({ id: Date.now(), name, price, special });
-                document.getElementById('new-name').value = '';
-                document.getElementById('new-price').value = '';
-                document.getElementById('new-special').value = '';
-                render();
+        function add() {
+            let n = document.getElementById('in-name').value;
+            let pr = document.getElementById('in-price').value;
+            let im = document.getElementById('in-img').value;
+            if(n && pr) {
+                db.push({name:n, price:pr, img:im});
+                draw();
+                document.getElementById('in-name').value='';
+                document.getElementById('in-price').value='';
+                document.getElementById('in-img').value='';
             }
         }
 
-        function deleteItem(index) {
-            if(confirm("Permanently remove this item?")) {
-                inventory.splice(index, 1);
-                render();
-            }
+        function del(idx) {
+            if(confirm("Delete?")) { db.splice(idx,1); draw(); }
         }
 
-        render();
+        draw();
     </script>
 </body>
 </html>
