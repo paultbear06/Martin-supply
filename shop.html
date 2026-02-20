@@ -1,104 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Hub - Martin Family Trading </title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-50 min-h-screen">
-    <header class="bg-slate-900 text-white p-6 sticky top-0 z-50 shadow-xl border-b-2 border-blue-500 text-center">
-        <h1 class="text-2xl font-bold uppercase tracking-tighter">MARTIN FAMILY <span class="text-blue-400">SUPPLY</span></h1>
-        <p class="text-blue-200 text-sm font-medium italic mt-2 max-w-xs mx-auto leading-tight">
-      From our family to yours. 
-            
-</p>
-
-        <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-bold">Live Inventory</p>
-    </header>
-
-    <div class="p-4 max-w-6xl mx-auto flex justify-between">
-        <a href="index.html" class="text-slate-500 font-bold text-xs uppercase hover:text-blue-600">← Back to Home</a>
-        <button onclick="openEditor()" class="text-slate-400 font-bold text-xs uppercase hover:text-blue-600">⚙️ Edit List</button>
-    </div>
-
-    <main id="inventory-grid" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"></main>
-
-    <div id="editor-panel" class="hidden fixed inset-0 bg-white z-[100] p-6 overflow-y-auto">
-        <div class="max-w-2xl mx-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-black uppercase">Warehouse Manager</h2>
-                <button onclick="closeEditor()" class="bg-slate-200 px-4 py-2 rounded-xl font-bold uppercase text-xs">Close</button>
-            </div>
-            
-            <div class="bg-blue-50 p-6 rounded-3xl mb-8 border-2 border-blue-100">
-                <input id="new-name" type="text" placeholder="Item Name" class="w-full p-4 rounded-xl mb-3 border border-blue-200">
-                <input id="new-price" type="text" placeholder="Price (0.00)" class="w-full p-4 rounded-xl mb-3 border border-blue-200">
-                <input id="new-img" type="text" placeholder="Paste Image Address Here" class="w-full p-4 rounded-xl mb-3 border border-blue-200">
-                <input id="new-tag" type="text" placeholder="Tag (e.g. New / Sale)" class="w-full p-4 rounded-xl mb-4 border border-blue-200">
-                <button onclick="addItem()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase shadow-lg">Update Inventory</button>
-            </div>
-
-            <div id="admin-list" class="space-y-3"></div>
+<div class="border-t-2 border-slate-100 mt-10 pt-8">
+    <h3 class="font-bold mb-4 uppercase text-sm text-blue-800">Gallery & Showcase Manager</h3>
+    <p class="text-xs text-slate-500 mb-4">Paste image links here to update your main website photos.</p>
+    
+    <div class="space-y-4">
+        <div>
+            <label class="text-[10px] font-bold uppercase text-slate-400">Main Header Photo</label>
+            <input id="header-img-input" type="text" placeholder="Paste Direct Link here..." class="w-full p-3 rounded-xl border border-slate-200 text-sm">
         </div>
+        <div>
+            <label class="text-[10px] font-bold uppercase text-slate-400">Storefront Banner</label>
+            <input id="banner-img-input" type="text" placeholder="Paste Direct Link here..." class="w-full p-3 rounded-xl border border-slate-200 text-sm">
+        </div>
+        <button onclick="saveSiteSettings()" class="w-full bg-slate-900 text-white py-3 rounded-xl font-bold uppercase text-xs">Save Site Images</button>
     </div>
+</div>
 
-    <script>
-        const PASS = "Martin2026"; // YOUR PASSWORD
-        let inventory = JSON.parse(localStorage.getItem('martin_shop_v1')) || [];
+<script>
+    // NEW SETTINGS FUNCTIONS
+    function saveSiteSettings() {
+        const headerImg = document.getElementById('header-img-input').value;
+        const bannerImg = document.getElementById('banner-img-input').value;
+        
+        const settings = {
+            header: headerImg,
+            banner: bannerImg
+        };
+        
+        localStorage.setItem('martin_site_settings', JSON.stringify(settings));
+        alert("Site images updated!");
+        location.reload(); // Refreshes to show new photos
+    }
 
-        function render() {
-            localStorage.setItem('martin_shop_v1', JSON.stringify(inventory));
-            
-            // Render Public View
-            const grid = document.getElementById('inventory-grid');
-            grid.innerHTML = inventory.length ? inventory.map(item => `
-                <div class="bg-white rounded-3xl shadow-md border overflow-hidden flex flex-col">
-                    <img src="${item.img || 'https://via.placeholder.com/400'}" class="w-full h-48 object-cover bg-slate-200">
-                    <div class="p-6">
-                        ${item.tag ? `<span class="bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded w-fit uppercase mb-2 block">${item.tag}</span>` : ''}
-                        <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">${item.name}</h3>
-                        <div class="mt-2"><span class="text-3xl font-black text-slate-900">$${item.price}</span></div>
-                    </div>
-                </div>
-            `).join('') : '<p class="text-center col-span-full py-20 text-slate-400 uppercase font-bold">Inventory is empty. Use the "Edit List" button to add items.</p>';
-
-            // Render Admin List
-            const adminList = document.getElementById('admin-list');
-            adminList.innerHTML = inventory.map((item, index) => `
-                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border">
-                    <div><p class="font-bold">${item.name}</p><p class="text-xs text-slate-500">$${item.price}</p></div>
-                    <button onclick="deleteItem(${index})" class="text-red-600 font-bold text-xs uppercase">Remove</button>
-                </div>
-            `).join('');
+    // Load settings when page opens
+    window.onload = function() {
+        const savedSettings = JSON.parse(localStorage.getItem('martin_site_settings'));
+        if(savedSettings) {
+            if(savedSettings.header) document.getElementById('main-header-display').src = savedSettings.header;
+            // This looks for an ID you name 'main-header-display' and changes its photo automatically
         }
-
-        function openEditor() {
-            if (prompt("Enter Password:") === PASS) document.getElementById('editor-panel').classList.remove('hidden');
-        }
-
-        function closeEditor() { document.getElementById('editor-panel').classList.add('hidden'); }
-
-        function addItem() {
-            const name = document.getElementById('new-name').value;
-            const price = document.getElementById('new-price').value;
-            const img = document.getElementById('new-img').value;
-            const tag = document.getElementById('new-tag').value;
-            if(name && price) {
-                inventory.push({ name, price, img, tag });
-                render();
-                document.getElementById('new-name').value = '';
-                document.getElementById('new-price').value = '';
-                document.getElementById('new-img').value = '';
-                document.getElementById('new-tag').value = '';
-            }
-        }
-
-        function deleteItem(index) {
-            if(confirm("Delete this item?")) { inventory.splice(index, 1); render(); }
-        }
-
-        render();
-    </script>
-</body>
-</html>
+    }
+</script>
