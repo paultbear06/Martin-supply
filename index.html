@@ -68,8 +68,8 @@
     <script>
         const PASS = "Martin2026";
         
-        // FORCED V2 DATABASE KEY TO CLEAR OLD PHONE CACHE
-        let directory = JSON.parse(localStorage.getItem('open_dir_v2')) || [
+        // FORCED V3 DATABASE KEY TO RESET LOCAL STORAGE AUTOMATICALLY
+        let directory = JSON.parse(localStorage.getItem('open_dir_v3')) || [
             // --- GARVIN COUNTY ---
             { name: "Garvin County Sheriff (Non-Emergency)", phone: "(405) 238-7591", address: "Pauls Valley, OK", type: "Business", category: "Emergency & Government" },
             { name: "Pauls Valley City Hall", phone: "(405) 238-3308", address: "Pauls Valley, OK", type: "Business", category: "Municipal Office" },
@@ -98,17 +98,27 @@
             { name: "Purcell City Hall", phone: "(405) 527-6561", address: "Purcell, OK", type: "Business", category: "Municipal Office" },
             { name: "Purcell Post Office", phone: "(405) 527-3132", address: "Purcell, OK", type: "Business", category: "Post Office" },
             { name: "Blanchard City Hall", phone: "(405) 485-9397", address: "Blanchard, OK", type: "Business", category: "Municipal Office" },
-            { name: "Newcastle City Hall", phone: "(405) 387-4427", address: "Newcastle, OK", type: "Business", category: "Municipal Office" }
+            { name: "Newcastle City Hall", phone: "(405) 387-4427", address: "Newcastle, OK", type: "Business", category: "Municipal Office" },
+
+            // --- NATIONAL LIAISON OFFICES ---
+            { name: "Central Intelligence Agency (CIA)", phone: "(202) 647-4258", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
+            { name: "Federal Bureau of Investigation (FBI)", phone: "(202) 647-8357", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
+            { name: "National Security Agency (NSA)", phone: "(202) 647-3771", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
+            { name: "National Reconnaissance Office (NRO)", phone: "(202) 647-0863", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
+            { name: "United States Secret Service (USSS)", phone: "(202) 647-9738", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
+            { name: "United States Coast Guard (USCG)", phone: "(202) 647-3940", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
+            { name: "North Atlantic Treaty Organization (NATO)", phone: "(202) 647-1627", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
+            { name: "United Nations (General Information)", phone: "(212) 415-4000", address: "New York, NY", type: "Business", category: "Federal Liaison Office" }
         ];
         
-        let adContent = JSON.parse(localStorage.getItem('open_dir_ad_v2')) || {
+        let adContent = JSON.parse(localStorage.getItem('open_dir_ad_v3')) || {
             title: "Your Business Banner Ad Here",
             sub: "Target local and national traffic. Contact us to purchase this space."
         };
 
         function renderSite() {
-            localStorage.setItem('open_dir_v2', JSON.stringify(directory));
-            localStorage.setItem('open_dir_ad_v2', JSON.stringify(adContent));
+            localStorage.setItem('open_dir_v3', JSON.stringify(directory));
+            localStorage.setItem('open_dir_ad_v3', JSON.stringify(adContent));
 
             document.getElementById('ad-text-top').innerText = adContent.title;
             document.getElementById('ad-sub-top').innerText = adContent.sub;
