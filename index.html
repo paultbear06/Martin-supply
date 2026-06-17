@@ -68,8 +68,8 @@
     <script>
         const PASS = "Martin2026";
         
-        // FORCED V3 DATABASE KEY TO RESET LOCAL STORAGE AUTOMATICALLY
-        let directory = JSON.parse(localStorage.getItem('open_dir_v3')) || [
+        // FORCED V4 DATABASE KEY TO LOAD EVERY ENTRY DIRECTLY FROM THE PDF
+        let directory = JSON.parse(localStorage.getItem('open_dir_v4')) || [
             // --- GARVIN COUNTY ---
             { name: "Garvin County Sheriff (Non-Emergency)", phone: "(405) 238-7591", address: "Pauls Valley, OK", type: "Business", category: "Emergency & Government" },
             { name: "Pauls Valley City Hall", phone: "(405) 238-3308", address: "Pauls Valley, OK", type: "Business", category: "Municipal Office" },
@@ -100,25 +100,95 @@
             { name: "Blanchard City Hall", phone: "(405) 485-9397", address: "Blanchard, OK", type: "Business", category: "Municipal Office" },
             { name: "Newcastle City Hall", phone: "(405) 387-4427", address: "Newcastle, OK", type: "Business", category: "Municipal Office" },
 
-            // --- NATIONAL LIAISON OFFICES ---
-            { name: "Central Intelligence Agency (CIA)", phone: "(202) 647-4258", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
-            { name: "Federal Bureau of Investigation (FBI)", phone: "(202) 647-8357", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
-            { name: "National Security Agency (NSA)", phone: "(202) 647-3771", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
-            { name: "National Reconnaissance Office (NRO)", phone: "(202) 647-0863", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
-            { name: "United States Secret Service (USSS)", phone: "(202) 647-9738", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
-            { name: "United States Coast Guard (USCG)", phone: "(202) 647-3940", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
-            { name: "North Atlantic Treaty Organization (NATO)", phone: "(202) 647-1627", address: "Washington, DC", type: "Business", category: "Federal Liaison Office" },
-            { name: "United Nations (General Information)", phone: "(212) 415-4000", address: "New York, NY", type: "Business", category: "Federal Liaison Office" }
+            // --- FULL LIAISON OFFICES DATABASE DIRECT FROM PDF ---
+            { name: "Bureau of International Expositions (BIE)", phone: "(202) 647-2560", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Commission on Crime Prevention & Criminal Justice", phone: "(202) 647-1155", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Central Intelligence Agency (CIA)", phone: "(202) 647-4258", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Inter-American Telecommunications Conference (CITEL)", phone: "(202) 647-2723", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Commission on Narcotic Drugs (CND)", phone: "(202) 647-2754", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Communications Satellite Organization (COMSAT)", phone: "(202) 647-6235", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Caribbean Postal Union (CPU)", phone: "(202) 647-4197", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Commission on Sustainable Development (CSD)", phone: "(202) 647-1108", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Commission on the Status of Women (CSW)", phone: "(202) 647-1155", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Dept of Development Support and Management Services", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Defense Intelligence Agency (DIA)", phone: "(202) 647-3670", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Defense Liaison for Communications Matters (DLO)", phone: "(202) 647-2428", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Food and Agriculture Organization (FAO)", phone: "(202) 647-1017", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Federal Bureau of Investigation (FBI)", phone: "(202) 647-8357", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Federal Communications Commission (FCC)", phone: "(202) 647-5832", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "General Accountability Office (GAO)", phone: "(202) 647-7656", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Government Printing Office (GPO)", phone: "(202) 647-2050", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Atomic Energy Agency (IAEA)", phone: "(202) 647-4198", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Bank for Reconstruction & Development", phone: "(202) 647-9462", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Boundary and Water Commission (US-Mexico)", phone: "(202) 647-8529", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Bureau of Weights and Measures (IBWM)", phone: "(202) 647-2480", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Civil Aviation Organization (ICAO)", phone: "(202) 647-1547", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Intergovernmental Committee for Migration (ICM)", phone: "(202) 663-1041", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Committee of the Red Cross (ICRC)", phone: "(202) 647-1155", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Fund for Agricultural Development (IFAD)", phone: "(202) 647-1017", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Labor Organization (ILO)", phone: "(202) 647-1045", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Monetary Fund (IMF)", phone: "(202) 647-9497", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Maritime Organization (IMO)", phone: "(202) 647-1547", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Narcotics Control Board (INCB)", phone: "(202) 647-2754", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Maritime Satellite Organization (INMARSAT)", phone: "(202) 647-5233", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Telecommunications Satellite Org (INTELSAT)", phone: "(202) 647-5233", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Organization on Legal Metrology (IOLM)", phone: "(202) 647-2480", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Telecommunication Union (ITU)", phone: "(202) 647-1526", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "International Union for Conservation of Nature (IUCN)", phone: "(202) 647-1108", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "North Atlantic Treaty Organization (NATO)", phone: "(202) 647-1627", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "National Geospatial-Intelligence Agency (NGA)", phone: "(202) 647-5130", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "National Reconnaissance Office (NRO)", phone: "(202) 647-0863", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "National Security Agency (NSA)", phone: "(202) 647-3771", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Organization of American States (OAS)", phone: "(202) 647-9376", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Pan American Health Organization (PAHO)", phone: "(202) 647-1044", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Postal Union for Americas, Spain and Portugal (PUASP)", phone: "(202) 647-4197", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "South Pacific Commission (SPC)", phone: "(202) 647-3546", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "United Nations (General Information)", phone: "(212) 415-4000", address: "New York, NY", type: "Business", category: "Liaison Office" },
+            { name: "UN Administrative Arrangements", phone: "(202) 647-4196", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Industrial Development & Econ Policy", phone: "(202) 647-2506", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Recruitment of Americans", phone: "(202) 736-4825", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Reference Section", phone: "(202) 647-7993", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Security and Armaments Limitations", phone: "(202) 647-2392", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Human Rights Affairs", phone: "(202) 647-1155", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Political and Multilateral Affairs", phone: "(202) 647-2392", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN System Budget", phone: "(202) 647-8270", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN System Coordination", phone: "(202) 647-7930", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Border Relief Operation (UNBRO)", phone: "(202) 663-1062", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Capital Development Fund (UNCDF)", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Commission on Narcotic Drugs (UNCND)", phone: "(202) 647-2754", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN International Drug Control Program (UNDCP)", phone: "(202) 647-2754", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "United Nations Development Program (UNDP)", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "United Nations Environmental Program (UNEP)", phone: "(202) 647-1108", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UNESCO", phone: "(202) 647-2560", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Educational & Training Program for Southern Africa", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "United Nations Fund for Population Activities (UNFPA)", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "United Nations High Commission for Refugees (UNHCR)", phone: "(202) 663-1041", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "United Nations Children's Fund (UNICEF)", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Industrial Development Organization (UNIDO)", phone: "(202) 647-2480", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Fund for Women (UNIFEM)", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Institute for Training and Research (UNITAR)", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Office on Drugs and Crime (UNODC)", phone: "(202) 647-2754", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UNRWA for Palestine Refugees", phone: "(202) 647-4020", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Trust Fund for South Africa (UNTFSA)", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "UN Volunteers (UNV)", phone: "(202) 647-2165", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "Universal Postal Union (UPU)", phone: "(202) 647-4197", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "United States Coast Guard (USCG)", phone: "(202) 647-3940", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "United States Postal Service (USPS)", phone: "(202) 647-4197", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "United States Secret Service (USSS)", phone: "(202) 647-9738", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "World Food Program (WFP)", phone: "(202) 647-2600", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "World Health Organization (WHO)", phone: "(202) 647-1044", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "World Intellectual Property Organization (WIPO)", phone: "(202) 647-1526", address: "Washington, DC", type: "Business", category: "Liaison Office" },
+            { name: "World Meteorological Organization (WMO)", phone: "(202) 647-2480", address: "Washington, DC", type: "Business", category: "Liaison Office" }
         ];
         
-        let adContent = JSON.parse(localStorage.getItem('open_dir_ad_v3')) || {
+        let adContent = JSON.parse(localStorage.getItem('open_dir_ad_v4')) || {
             title: "Your Business Banner Ad Here",
             sub: "Target local and national traffic. Contact us to purchase this space."
         };
 
         function renderSite() {
-            localStorage.setItem('open_dir_v3', JSON.stringify(directory));
-            localStorage.setItem('open_dir_ad_v3', JSON.stringify(adContent));
+            localStorage.setItem('open_dir_v4', JSON.stringify(directory));
+            localStorage.setItem('open_dir_ad_v4', JSON.stringify(adContent));
 
             document.getElementById('ad-text-top').innerText = adContent.title;
             document.getElementById('ad-sub-top').innerText = adContent.sub;
