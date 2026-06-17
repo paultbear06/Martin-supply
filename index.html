@@ -3,36 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Martin Family Supply</title>
-    <div class="text-center mt-4">
-    <a href="shop.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold uppercase text-xs tracking-widest shadow-lg transition inline-block">
-        📦 View Full Inventory
-    </a>
-</div>
-
+    <title>National Business & Residential Directory</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none !important; }
+    </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col items-center justify-center p-6">
-    <div class="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden border">
-        <div class="bg-slate-200 h-64 flex items-center justify-center">
-            <p class="text-slate-400 font-bold uppercase text-xs">Your Photo Goes Here</p>
-        </div>
-        
-        <div class="p-8 text-center">
-            <h1 class="text-3xl font-black text-slate-900 uppercase">Martin Family Supply</h1>
-            <p class="text-blue-600 font-bold mt-2 uppercase tracking-widest text-xs">Quality Tools & Hardware</p>
-            
-            <div class="mt-8 space-y-4 text-slate-600 font-medium">
-                <p>📍 Pauls Valley, Oklahoma</p>
-                <p>📞 (555) 000-0000</p>
-                <p>✉️ martinservices2003@gmail.com</p>
-            </div>
+<body class="bg-slate-100 min-h-screen font-sans">
 
-            <a href="index.html" class="mt-10 inline-block bg-slate-900 text-white px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg">Back to Storefront</a>
+    <header class="bg-slate-900 text-white pt-10 pb-8 px-4 text-center sticky top-0 z-50 shadow-md">
+        <h1 class="text-3xl font-black tracking-tight uppercase">🌐 OPEN <span class="text-blue-400">DIRECTORY</span></h1>
+        <p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Universal Telephone & Business Index</p>
+        
+        <div class="max-w-md mx-auto mt-6 px-2 flex gap-2">
+            <input type="text" id="directory-search" oninput="searchDirectory()" placeholder="Search names, towns, or categories..." 
+                   class="w-full p-4 rounded-2xl text-slate-900 font-medium shadow-lg focus:outline-none">
+            <button onclick="openAdmin()" class="bg-slate-800 text-slate-400 px-4 rounded-2xl text-xl border border-slate-700">⚙️</button>
         </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-4 space-y-4">
+        
+        <div id="ad-banner-top" class="bg-amber-50 border-2 border-amber-300 rounded-3xl p-4 flex justify-between items-center shadow-sm">
+            <div>
+                <span class="bg-amber-400 text-slate-900 text-[9px] font-black px-2 py-0.5 rounded uppercase">Sponsored</span>
+                <h4 id="ad-text-top" class="font-bold text-slate-900 mt-1">Prime Header Advertisement Spot</h4>
+                <p id="ad-sub-top" class="text-xs text-slate-600">Call directory management to feature your business here.</p>
+            </div>
+        </div>
+
+        <div id="listings-box" class="space-y-3"></div>
+    </main>
+
+    <div id="admin-panel" class="hidden fixed inset-0 bg-white z-[999] p-6 overflow-y-auto">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h2 class="font-black text-xl uppercase tracking-tight">Directory Admin Panel</h2>
+            <button onclick="closeAdmin()" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase">Exit</button>
+        </div>
+
+        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 mb-6">
+            <p class="font-black text-xs text-blue-800 uppercase mb-3">Add New Directory Listing</p>
+            <input id="new-name" type="text" placeholder="Business or Person Name" class="w-full p-3 rounded-xl mb-2 border border-blue-200">
+            <input id="new-phone" type="text" placeholder="Phone Number" class="w-full p-3 rounded-xl mb-2 border border-blue-200">
+            <input id="new-address" type="text" placeholder="City, State / Address" class="w-full p-3 rounded-xl mb-2 border border-blue-200">
+            <select id="new-type" class="w-full p-3 rounded-xl mb-2 border border-blue-200 bg-white">
+                <option value="Business">Business Listing</option>
+                <option value="Residential">Residential Listing</option>
+            </select>
+            <input id="new-category" type="text" placeholder="Category (e.g. Hardware, Contractor, Personal)" class="w-full p-3 rounded-xl mb-4 border border-blue-200">
+            <button onclick="addListing()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold uppercase text-xs">Publish to Directory</button>
+        </div>
+
+        <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200 mb-6">
+            <p class="font-black text-xs text-amber-800 uppercase mb-3">Manage Banner Ad</p>
+            <input id="ad-input-title" type="text" placeholder="Ad Headline Business Name" class="w-full p-3 rounded-xl mb-2 border border-amber-200">
+            <input id="ad-input-sub" type="text" placeholder="Ad Description / Details" class="w-full p-3 rounded-xl mb-3 border border-amber-200">
+            <button onclick="updateAd()" class="w-full bg-amber-500 text-white py-3 rounded-xl font-bold uppercase text-xs">Update Live Banner Ad</button>
+        </div>
+
+        <p class="font-black text-[10px] text-slate-400 uppercase mb-2">Current Database Listings</p>
+        <div id="admin-entries-list" class="space-y-2"></div>
     </div>
+
+    <script>
+        const PASS = "Martin2026";
+        
+        // Dynamic Phone Local Storage Database
+        let directory = JSON.parse(localStorage.getItem('open_dir_data')) || [
+            { name: "Martin Services", phone: "(405) 238-0395", address: "Oklahoma", type: "Business", category: "Equipment & Supplies" }
+        ];
+        
+        let adContent = JSON.parse(localStorage.getItem('open_dir_ad')) || {
+            title: "Your Business Banner Ad Here",
+            sub: "Target local and national traffic. Contact us to purchase this space."
+        };
+
+        function renderSite() {
+            localStorage.setItem('open_dir_data', JSON.stringify(directory));
+            localStorage.setItem('open_dir_ad', JSON.stringify(adContent));
+
+            // Update Ad Panel text
+            document.getElementById('ad-text-top').innerText = adContent.title;
+            document.getElementById('ad-sub-top').innerText = adContent.sub;
+
+            // Render Public View
+            const container = document.getElementById('listings-box');
+            container.innerHTML = directory.map((item, index) => `
+                <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-black text-xl text-slate-800 uppercase tracking-tight">${item.name}</h3>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded ${item.type === 'Business' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600'}">${item.type}</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">📍 ${item.address}</p>
+                        <p class="text-xs font-semibold text-blue-600 uppercase tracking-wider mt-1">${item.category}</p>
+                    </div>
+                    <div class="flex items-center justify-between md:justify-end border-t pt-3 md:border-t-0 md:pt-0 border-slate-100">
+                        <a href="tel:${item.phone.replace(/\D/g,'')}" class="font-mono text-lg font-bold text-slate-900 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 hover:bg-blue-50 hover:text-blue-600 transition">${item.phone}</a>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Administrative List
+            const adminContainer = document.getElementById('admin-entries-list');
+            adminContainer.innerHTML = directory.map((item, idx) => `
+                <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border text-sm">
+                    <div><p class="font-bold">${item.name}</p><p class="text-xs text-slate-400">${item.phone}</p></div>
+                    <button onclick="deleteListing(${idx})" class="text-red-500 font-bold text-xs uppercase p-2">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        // Live Search Filtering
+        function searchDirectory() {
+            const query = document.getElementById('directory-search').value.toLowerCase();
+            const cards = document.getElementById('listings-box').children;
+            
+            directory.forEach((item, index) => {
+                const isMatch = item.name.toLowerCase().includes(query) || 
+                                item.address.toLowerCase().includes(query) || 
+                                item.category.toLowerCase().includes(query);
+                if (cards[index]) {
+                    if (isMatch) cards[index].classList.remove('hidden');
+                    else cards[index].classList.add('hidden');
+                }
+            });
+        }
+
+        // Security Lock Functions
+        function openAdmin() {
+            if (prompt("Enter Access Code:") === PASS) {
+                document.getElementById('admin-panel').classList.remove('hidden');
+                document.getElementById('ad-input-title').value = adContent.title;
+                document.getElementById('ad-input-sub').value = adContent.sub;
+            } else {
+                alert("Unauthorized");
+            }
+        }
+        function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
+
+        // Data Entry Upgrades
+        function addListing() {
+            const name = document.getElementById('new-name').value;
+            const phone = document.getElementById('new-phone').value;
+            const address = document.getElementById('new-address').value;
+            const type = document.getElementById('new-type').value;
+            const category = document.getElementById('new-category').value;
+
+            if (name && phone) {
+                directory.push({ name, phone, address, type, category });
+                renderSite();
+                document.getElementById('new-name').value = '';
+                document.getElementById('new-phone').value = '';
+                document.getElementById('new-address').value = '';
+                document.getElementById('new-category').value = '';
+            }
+        }
+
+        function updateAd() {
+            adContent.title = document.getElementById('ad-input-title').value;
+            adContent.sub = document.getElementById('ad-input-sub').value;
+            renderSite();
+            alert("Live Advertisement Space Swapped!");
+        }
+
+        function deleteListing(idx) {
+            if (confirm("Delete this listing permanently?")) {
+                directory.splice(idx, 1);
+                renderSite();
+            }
+        }
+
+        // Initial Boot
+        renderSite();
+    </script>
 </body>
 </html>
-
-
-
