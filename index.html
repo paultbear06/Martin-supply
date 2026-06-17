@@ -68,8 +68,8 @@
     <script>
         const PASS = "Martin2026";
         
-        // Dynamic Phone Local Storage Database
-        let directory = JSON.parse(localStorage.getItem('open_dir_data')) || [
+        // FORCED V2 DATABASE KEY TO CLEAR OLD PHONE CACHE
+        let directory = JSON.parse(localStorage.getItem('open_dir_v2')) || [
             // --- GARVIN COUNTY ---
             { name: "Garvin County Sheriff (Non-Emergency)", phone: "(405) 238-7591", address: "Pauls Valley, OK", type: "Business", category: "Emergency & Government" },
             { name: "Pauls Valley City Hall", phone: "(405) 238-3308", address: "Pauls Valley, OK", type: "Business", category: "Municipal Office" },
@@ -101,14 +101,14 @@
             { name: "Newcastle City Hall", phone: "(405) 387-4427", address: "Newcastle, OK", type: "Business", category: "Municipal Office" }
         ];
         
-        let adContent = JSON.parse(localStorage.getItem('open_dir_ad')) || {
+        let adContent = JSON.parse(localStorage.getItem('open_dir_ad_v2')) || {
             title: "Your Business Banner Ad Here",
             sub: "Target local and national traffic. Contact us to purchase this space."
         };
 
         function renderSite() {
-            localStorage.setItem('open_dir_data', JSON.stringify(directory));
-            localStorage.setItem('open_dir_ad', JSON.stringify(adContent));
+            localStorage.setItem('open_dir_v2', JSON.stringify(directory));
+            localStorage.setItem('open_dir_ad_v2', JSON.stringify(adContent));
 
             document.getElementById('ad-text-top').innerText = adContent.title;
             document.getElementById('ad-sub-top').innerText = adContent.sub;
@@ -154,6 +154,7 @@
             });
         }
 
+        // Access Lock
         function openAdmin() {
             if (prompt("Enter Access Code:") === PASS) {
                 document.getElementById('admin-panel').classList.remove('hidden');
@@ -182,6 +183,7 @@
             }
         }
 
+        // Live Swapper
         function updateAd() {
             adContent.title = document.getElementById('ad-input-title').value;
             adContent.sub = document.getElementById('ad-input-sub').value;
