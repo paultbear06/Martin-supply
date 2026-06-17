@@ -70,8 +70,6 @@
         
         // Dynamic Phone Local Storage Database
         let directory = JSON.parse(localStorage.getItem('open_dir_data')) || [
-            { name: "Martin Services", phone: "(405) 238-0395", address: "Oklahoma", type: "Business", category: "Equipment & Supplies" }
-                    let directory = JSON.parse(localStorage.getItem('open_dir_data')) || [
             // --- GARVIN COUNTY ---
             { name: "Garvin County Sheriff (Non-Emergency)", phone: "(405) 238-7591", address: "Pauls Valley, OK", type: "Business", category: "Emergency & Government" },
             { name: "Pauls Valley City Hall", phone: "(405) 238-3308", address: "Pauls Valley, OK", type: "Business", category: "Municipal Office" },
@@ -102,8 +100,6 @@
             { name: "Blanchard City Hall", phone: "(405) 485-9397", address: "Blanchard, OK", type: "Business", category: "Municipal Office" },
             { name: "Newcastle City Hall", phone: "(405) 387-4427", address: "Newcastle, OK", type: "Business", category: "Municipal Office" }
         ];
-
-        ];
         
         let adContent = JSON.parse(localStorage.getItem('open_dir_ad')) || {
             title: "Your Business Banner Ad Here",
@@ -114,11 +110,9 @@
             localStorage.setItem('open_dir_data', JSON.stringify(directory));
             localStorage.setItem('open_dir_ad', JSON.stringify(adContent));
 
-            // Update Ad Panel text
             document.getElementById('ad-text-top').innerText = adContent.title;
             document.getElementById('ad-sub-top').innerText = adContent.sub;
 
-            // Render Public View
             const container = document.getElementById('listings-box');
             container.innerHTML = directory.map((item, index) => `
                 <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -136,7 +130,6 @@
                 </div>
             `).join('');
 
-            // Render Administrative List
             const adminContainer = document.getElementById('admin-entries-list');
             adminContainer.innerHTML = directory.map((item, idx) => `
                 <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border text-sm">
@@ -146,7 +139,6 @@
             `).join('');
         }
 
-        // Live Search Filtering
         function searchDirectory() {
             const query = document.getElementById('directory-search').value.toLowerCase();
             const cards = document.getElementById('listings-box').children;
@@ -162,7 +154,6 @@
             });
         }
 
-        // Security Lock Functions
         function openAdmin() {
             if (prompt("Enter Access Code:") === PASS) {
                 document.getElementById('admin-panel').classList.remove('hidden');
@@ -174,7 +165,6 @@
         }
         function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
 
-        // Data Entry Upgrades
         function addListing() {
             const name = document.getElementById('new-name').value;
             const phone = document.getElementById('new-phone').value;
@@ -206,7 +196,6 @@
             }
         }
 
-        // Initial Boot
         renderSite();
     </script>
 </body>
