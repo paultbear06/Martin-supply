@@ -3,222 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Martin Services - Pauls Valley, OK</title>
+    <title>Martin Services | Est. 2003 | Contracting & Digital Media</title>
     <style>
-        /* Base Styles & Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #f4f6f7;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Hero / Header Section */
-        header.hero {
-            background: linear-gradient(rgba(20, 24, 27, 0.85), rgba(20, 24, 27, 0.95)),
-                        url('https://images.unsplash.com/photo-1518640165980-d3e0e2ba6c1e?q=80&w=1200') center/cover no-repeat;
-            color: #ffffff;
-            text-align: center;
-            padding: 60px 20px 80px 20px;
-            border-bottom: 5px solid #2e4d32;
-        }
-        .logo-box {
-            max-width: 400px;
-            margin: 0 auto 20px auto;
-            border: 2px solid #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
             padding: 15px;
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-        .logo-main {
-            font-size: 2.8rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-        .logo-sub {
-            font-size: 1.2rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: #e2e8f0;
-        }
-        .logo-date {
-            font-size: 0.9rem;
-            color: #a0aec0;
-        }
-        header.hero h1 {
-            font-size: 2rem;
-            margin-top: 30px;
-        }
-        header.hero p {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            max-width: 600px;
-            margin: 10px auto 0 auto;
-        }
-
-        /* Services Grid */
-        .services {
-            max-width: 1100px;
-            margin: -40px auto 60px auto;
-            padding: 0 20px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            border-top: 4px solid #2e4d32;
-        }
-        .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: #1a202c;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .card p {
-            color: #4a5568;
-        }
-
-        /* About Section */
-        .about-section {
-            background-color: #ffffff;
-            padding: 60px 20px;
-        }
-        .container {
-            max-width: 1000px;
+            padding-bottom: 80px;
+            max-width: 800px;
             margin: 0 auto;
+            line-height: 1.5;
         }
-        .about-section h2 {
-            font-size: 2rem;
-            color: #1a202c;
-            margin-bottom: 20px;
-        }
-        .about-section p {
-            margin-bottom: 20px;
-            color: #4a5568;
-        }
-
-        /* Contact Section */
-        .contact {
-            background-color: #1a202c;
-            color: #ffffff;
-            padding: 60px 20px;
+        
+        /* Header & Branding */
+        header {
             text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #ffb74d;
+            margin-bottom: 20px;
         }
-        .call-btn {
-            display: inline-block;
-            background-color: #2e4d32;
-            color: white;
-            padding: 15px 35px;
+        h1 { color: #ffb74d; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        p.sub-heading { color: #aaa; font-size: 0.95rem; margin-top: 4px; }
+        
+        /* Section Containers */
+        .card {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+        .card-header {
             font-size: 1.2rem;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        .location {
-            margin-top: 20px;
-            color: #cbd5e1;
+            font-weight: bold;
+            color: #00e676;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Footer */
-        footer {
-            background-color: #11141a;
-            color: #718096;
-            text-align: center;
+        /* Contracting Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .service-box {
+            background: #252525;
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        .service-box h4 { color: #bb86fc; margin-bottom: 6px; }
+        .service-box p { font-size: 0.85rem; color: #ccc; }
+
+        /* Social Affiliate Network Styling */
+        .platform-card {
+            background: #252525;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .platform-card.priority-target {
+            border: 2px solid #ffb74d;
+            background: #2a2215;
+        }
+        .badge {
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            float: right;
+        }
+        .badge-priority { background: #ffb74d; color: #000; }
+        .badge-standard { background: #444; color: #fff; }
+
+        .affiliate-link-btn {
+            display: inline-block;
+            background: #00e676;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+        .affiliate-link-btn:hover { background: #00c853; }
+
+        /* Email Ad / Newsletter Box */
+        .email-ad-box {
+            background: #181818;
+            border: 1px dashed #666;
             padding: 15px;
-            font-size: 0.9rem;
+            border-radius: 6px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        input[type="email"], input[type="text"] {
+            width: 100%;
+            max-width: 300px;
+            padding: 8px;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: #fff;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        button {
+            background: #bb86fc;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 30px;
+            border-top: 1px solid #222;
+            padding-top: 15px;
         }
     </style>
 </head>
 <body>
 
-    <header class="hero">
-        <div class="logo-box">
-            <div class="logo-main">Martin</div>
-            <div class="logo-sub">Services</div>
-            <div class="logo-date">— Since 2003 —</div>
-        </div>
-        <h1>Multi-Service Property & Site Solutions</h1>
-        <p>Commercial, industrial, and residential site prep, building maintenance, and property solutions.</p>
+    <header>
+        <h1>Martin Services</h1>
+        <p class="sub-heading">Est. 2003 | Commercial Contracting, Municipal Logistics & Digital Media</p>
     </header>
 
-    <section class="services">
-        <div class="grid">
-            <div class="card">
-                <h3>🚜 Dirt Work & Grading</h3>
-                <p>Site clearing, grading, drainage solutions, and full-scale dirt moving using our track loader for efficient site prep.</p>
+    <!-- TRADITIONAL SERVICES SECTION -->
+    <div class="card">
+        <div class="card-header">🚜 Core Field Services</div>
+        <p style="font-size:0.9rem; color:#aaa; margin-bottom:10px;">Providing heavy equipment operations, land maintenance, and structural services across Oklahoma.</p>
+        
+        <div class="services-grid">
+            <div class="service-box">
+                <h4>Dirt Work & Excavation</h4>
+                <p>Site clearance, grading, pad building, ditching, and drainage infrastructure.</p>
             </div>
-            <div class="card">
-                <h3>🏗️ Backhoe Services</h3>
-                <p>Specialized excavation, trenching, septic prep, and heavy material handling.</p>
+            <div class="service-box">
+                <h4>General Construction</h4>
+                <p>Framing, outbuilding builds, residential structural modifications, and concrete prep.</p>
             </div>
-            <div class="card">
-                <h3>🔨 Construction & Handyman</h3>
-                <p>General construction fixes, repairs, installations, and structural maintenance.</p>
+            <div class="service-box">
+                <h4>Property & Equipment Care</h4>
+                <p>Floor buffering, commercial janitorial, agricultural machinery restoration, and field maintenance.</p>
             </div>
-            <div class="card">
-                <h3>🏠 Home Renovations</h3>
-                <p>Full-service residential remodeling, additions, structural upgrades, and framing.</p>
-            </div>
-            <div class="card">
-                <h3>✨ Floor Reconditioning</h3>
-                <p>Professional restoration of worn industrial, commercial, or residential floors.</p>
-            </div>
-            <div class="card">
-                <h3>🏢 Industrial Floor Cleaning</h3>
-                <p>Deep-clean facility maintenance using professional ride-on floor scrubbers.</p>
-            </div>
-            <div class="card">
-                <h3>🛡️ Janitorial Logistics</h3>
-                <p>Commercial cleaning supply management, distribution, and facility upkeep solutions.</p>
-            </div>
-            <div class="card">
-                <h3>✅ Market-Ready Cleaning</h3>
-                <p>Deep detail cleaning to get residential properties in pristine condition for the real estate market.</p>
-            </div>
-            <div class="card">
-                <h3>💧 Concrete Power Cleaning</h3>
-                <p>High-pressure washing to remove stains, oil, and buildup from driveways and walkways.</p>
+            <div class="service-box">
+                <h4>Municipal & Water Services</h4>
+                <p>Line maintenance, utility support, floodplain admin consulting, and local infrastructure project management.</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="about-section">
-        <div class="container">
-            <h2>About Martin Services</h2>
-            <p>Established in 2003, Martin Services is built on a foundation of versatility and dependable capability. From operating heavy equipment and managing industrial contracts to performing detailed home renovations and commercial facility upkeep, we bring the right tools and decades of experience to every job layout.</p>
-            <p>We take pride in delivering comprehensive site and property solutions that are reliable, high-quality, and tailored to the unique demands of our clients, whether you are a general contractor, commercial property manager, or homeowner.</p>
+    <!-- SOCIAL INFLUENCE & AFFILIATE HUB -->
+    <div class="card">
+        <div class="card-header">📡 Social Influence & Affiliate Hub</div>
+        <p style="font-size:0.85rem; color:#ccc; margin-bottom:15px;">
+            Cross-platform content dispatch driving traffic through product placements, affiliate links, and targeted email campaigns.
+        </p>
+
+        <!-- PLATFORM 1: ART & MUSIC (20% PRIORITY DRIVE) -->
+        <div class="platform-card priority-target">
+            <span class="badge badge-priority">20% Core Drive (Authentic Focus)</span>
+            <h3 style="color:#ffb74d;">1. Any Rock Records / Music & Custom Guitars</h3>
+            <p style="font-size:0.85rem; color:#ddd; margin: 6px 0;">
+                <strong>Content Subject:</strong> Original songwriting catalog, studio recording techniques, custom guitar builds, and audio engineering setups.
+            </p>
+            <p style="font-size:0.8rem; color:#aaa;">
+                <em>Featured Placement:</em> Studio audio interfaces, guitar hardware, recording mics, and distribution tools.
+            </p>
+            <a href="https://annierock.vercel.app" target="_blank" class="affiliate-link-btn">🎸 Explore Any Rock Gear & Music</a>
         </div>
-    </section>
 
-    <section class="contact">
-        <div class="container">
-            <h2>Get Started on Your Next Project</h2>
-            <p>Ready to schedule Dirt Work, arrange Janitorial Logistics, or get an estimate for Home Renovations?</p>
-            <a href="tel:4052380395" class="call-btn">Call Us</a>
-<br>
-<a href="mailto:your-email@example.com" class="call-btn">Email Us</a>
-
-
-            <p class="location">Proudly Serving Pauls Valley, Oklahoma & Surrounding Counties</p>
+        <!-- PLATFORM 2: HEAVY EQUIPMENT & MACHINERY -->
+        <div class="platform-card">
+            <span class="badge badge-standard">Channel 2</span>
+            <h3 style="color:#bb86fc;">2. Heavy Equipment & Farm Machinery</h3>
+            <p style="font-size:0.85rem; color:#ddd; margin: 6px 0;">
+                <strong>Content Subject:</strong> Tractor restoration, Sperry-New Holland equipment repair, baling ops, and light truck tire reviews.
+            </p>
+            <p style="font-size:0.8rem; color:#aaa;">
+                <em>Featured Placement:</em> Agricultural parts, specialized shop tools, heavy-duty truck tires, and mechanical supplies.
+            </p>
+            <a href="#" class="affiliate-link-btn" style="background:#0288d1; color:#fff;">🚜 View Approved Shop Equipment</a>
         </div>
-    </section>
+
+        <!-- PLATFORM 3: MUNICIPAL & CIVIL INFRASTRUCTURE -->
+        <div class="platform-card">
+            <span class="badge badge-standard">Channel 3</span>
+            <h3 style="color:#bb86fc;">3. Municipal & Utility Operations</h3>
+            <p style="font-size:0.85rem; color:#ddd; margin: 6px 0;">
+                <strong>Content Subject:</strong> Public works management, waterline construction, floodplain admin guidelines, and civic tools.
+            </p>
+            <p style="font-size:0.8rem; color:#aaa;">
+                <em>Featured Placement:</em> Safety gear, municipal directory software, survey tools, and water treatment accessories.
+            </p>
+            <a href="#" class="affiliate-link-btn" style="background:#388e3c; color:#fff;">🛠️ Browse Municipal Toolkits</a>
+        </div>
+
+        <!-- PLATFORM 4: HOME CONSTRUCTION & DIRT WORK -->
+        <div class="platform-card">
+            <span class="badge badge-standard">Channel 4</span>
+            <h3 style="color:#bb86fc;">4. Independent Building & Dirt Operations</h3>
+            <p style="font-size:0.85rem; color:#ddd; margin: 6px 0;">
+                <strong>Content Subject:</strong> Ground-up home builds, framing techniques, land grading, and rental equipment operations.
+            </p>
+            <p style="font-size:0.8rem; color:#aaa;">
+                <em>Featured Placement:</em> Power tools, commercial buffer rentals, excavation attachments, and building materials.
+            </p>
+            <a href="#" class="affiliate-link-btn" style="background:#7b1fa2; color:#fff;">🏗️ View Construction Gear Picks</a>
+        </div>
+
+        <!-- EMAIL AD / PRODUCT PLACEMENT DISPATCH -->
+        <div class="email-ad-box">
+            <h4 style="color:#00e676; margin-bottom:6px;">✉️ Affiliate Dispatch & Product Alerts</h4>
+            <p style="font-size:0.8rem; color:#aaa; margin-bottom:10px;">
+                Subscribe to receive sponsored product reviews, discount links, and new gear alerts directly to your inbox.
+            </p>
+            <form onsubmit="event.preventDefault(); alert('Subscribed to Martin Services Affiliate Dispatch!');">
+                <input type="email" placeholder="Enter email for gear updates..." required><br>
+                <button type="submit">Join Sponsor List</button>
+            </form>
+            <p style="font-size:0.7rem; color:#666; margin-top:8px;">
+                *Disclosure: Links on these platforms contain affiliate links where product commissions are earned to support independent media production.
+            </p>
+        </div>
+    </div>
 
     <footer>
-        <p>&copy; 2026 Martin Services. All Rights Reserved.</p>
+        <p>&copy; 2003–2026 Martin Services. All rights reserved.</p>
+        <p style="margin-top:4px;">Pauls Valley & Elmore City, Oklahoma</p>
     </footer>
 
 </body>
